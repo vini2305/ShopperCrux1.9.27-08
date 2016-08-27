@@ -17,10 +17,10 @@
         android:orientation="horizontal">
 
         <com.android.volley.toolbox.NetworkImageView
-            android:id="@+id/productImage"
+            android:id="@+id/cartProdImage"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:src="@drawable/splash"/>
+            android:src="@mipmap/ic_launcher"/>
 
         <TextView
             android:layout_width="wrap_content"

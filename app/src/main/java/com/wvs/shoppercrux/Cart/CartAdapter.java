@@ -19,51 +19,54 @@ import java.util.List;
  */
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
-    private Context context;
-    private List<CartList> list;
-    private ImageLoader imageLoader;
+    Context context;
+    List<CartList> cartList;
+    ImageLoader Imageloader1;
 
     public CartAdapter(List<CartList> cartList, Context context){
         super();
-        this.list = cartList;
+        this.cartList = cartList;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_list,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_list, parent, false);
+
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cart_list,parent,false);
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder,final int position) {
 
-        final CartList cartList = list.get(position);
+        final CartList cartPojo = cartList.get(position);
 
-        imageLoader = ServerImageParseAdapter.getInstance(context).getImageLoader();
+        Imageloader1 = ServerImageParseAdapter.getInstance(context).getImageLoader();
 
+        if(cartPojo.getImageServerUrl() != null) {
+            Imageloader1.get(cartPojo.getImageServerUrl(),
+                    ImageLoader.getImageListener(
+                            holder.prodImage,//Server Image
+                            R.mipmap.ic_launcher,//Before loading server image the default showing image.
+                            android.R.drawable.ic_dialog_alert //Error image if requested image dose not found on server.
+                    )
+            );
 
-//        imageLoader.get(cartList.getProductImage(),
-//                ImageLoader.getImageListener(
-//                        holder.prodImage,//Server Image
-//                        R.mipmap.ic_launcher,//Before loading server image the default showing image.
-//                        android.R.drawable.ic_dialog_alert //Error image if requested image dose not found on server.
-//                )
-//        );
-//
-//
-//        holder.prodImage.setImageUrl(cartList.getProductImage(), imageLoader);
+            holder.prodImage.setImageUrl(cartPojo.getImageServerUrl(),Imageloader1);
+            holder.prodName.setText(cartPojo.getProductName());
+            holder.quantity.setText(cartPojo.getProductQuantity());
+            holder.price.setText(cartPojo.getProductPrice());
+        }
 
-        Log.d("Image URl","Bindview:"+cartList.getProductImage());
-        holder.prodName.setText(cartList.getProductName());
-        holder.quantity.setText(cartList.getProductQuantity());
-        holder.price.setText(cartList.getProductPrice());
+        Log.d("Image URl","Bindview:"+cartPojo.getImageServerUrl());
+
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        return cartList.size();
     }
 
 
@@ -74,7 +77,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            prodImage = (NetworkImageView) itemView.findViewById(R.id.productImage);
+            prodImage = (NetworkImageView) itemView.findViewById(R.id.cartProdImage);
             prodName = (TextView) itemView.findViewById(R.id.productName);
             quantity = (TextView) itemView.findViewById(R.id.quantity);
             price = (TextView) itemView.findViewById(R.id.price);

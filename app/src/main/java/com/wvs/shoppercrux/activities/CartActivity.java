@@ -84,7 +84,7 @@ public class CartActivity extends AppCompatActivity {
         jsonArrayRequest = new JsonArrayRequest(CART_URL, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                Log.d("Checkout","Response Checkout:"+response);
+//                Log.d("Checkout","Response Checkout:"+response);
                 obtainedCartItems(response);
             }
         }, new Response.ErrorListener() {
@@ -110,8 +110,7 @@ public class CartActivity extends AppCompatActivity {
                 cartList.setProductName(json.getString(MODEL));
                 cartList.setProductPrice(json.getString(PRICE));
                 cartList.setProductQuantity(json.getString(QUANTITY));
-                cartList.setProductImage(json.getString(IMAGE));
-                Log.d("Product Image","Image:"+json.getString(IMAGE));
+                cartList.setImageServerUrl(json.getString(IMAGE));
                 cartList.setProductId(json.getString(PRODUCT_ID));
 
             } catch (JSONException e){

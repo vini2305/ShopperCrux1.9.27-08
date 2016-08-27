@@ -81,7 +81,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         );
 
         viewHolder.networkImageView.setImageUrl(getDataAdapter1.getImageServerUrl(), imageLoader1);
-
+        Log.d("Image URl","Bindview:"+getDataAdapter1.getImageServerUrl());
         viewHolder.ImageTitleNameView.setText(getDataAdapter1.getImageTitleName());
         viewHolder.sellerId.setText(getDataAdapter1.getSellerID());
         viewHolder.storename.setText(getDataAdapter1.getStoreName());
